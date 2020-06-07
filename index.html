@@ -7,9 +7,71 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Portfolio</title>
     <style>
-        .info{
-            text-align: center;
+         .text{
+        position: absolute;
+        z-index: 999;
+        margin: 0 ;
+        float: left;
+        left:0px;
+        right: 0;
+        top: 40%; 
+        text-align: center;
+        width: 60%; 
+        color:aliceblue;
         }
+        @media only screen and (max-width: 600px) {
+        img{height:500px;}
+        }
+        @media only screen and (max-width: 600px) {
+            .informatic{
+            width:90%;
+            text-align: left;
+            }
+        }
+       
+        div.informatic{
+            left:1.5%;
+            top:500px;
+            width:97%;
+            position: absolute;
+            height: 200px;
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%);
+            color:black;
+            font-size: 32pt;
+            text-align: center;
+            font-family: Apple Chancery, cursive;
+        }
+        h6{
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 14pt;
+            text-align:center;
+            position: relative;
+        }
+        .gitinfo{
+            position: relative;
+            height: 500px;
+            width: 600px;
+            float: left;
+            margin-left: 0px;
+            background-color: coral;
+        }
+        .gitinfo p{
+            font-family: Brush Script MT;
+        }
+        @media only screen and (max-width: 600px) {
+        .gitinfo{
+            width: 100%;
+            height: 200px;
+        }
+        }
+        #Follower{
+            text-align: right;
+        }
+        h4{
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: medium;
+        }
+       
     </style>
 </head>
 <body>
@@ -17,14 +79,23 @@
         Loading...............
     </div>
     <div class="info" id="infoblock" hidden>
-        <img id="image" alt="" height="200" width="150">
-        <h2 id="Name"></h2>
-        <h5 id="bio"></h5>
+        <img id="image" alt="" height="1000" width="100%">
+        <div class="text">
+            <h2 id="Name"></h2>
+        </div>        
+        <div class="informatic">
+            <h5 id="bio"></h5>           
+        </div>
         <h6 id="url"></h6>
+        <div class="gitinfo">
         <p id="Follower"></p>
         <p>Check me On <a id="gitprofile" target="_blank">GitHub</a> </p>
-        <a class="twitter-timeline" data-width="300" data-height="500" href="https://twitter.com/_berojgar_?ref_src=twsrc%5Etfw">Tweets by _berojgar_
+        <h4>My Projects:</h4>
+        <a id='linkmyproject' target="_blank"><p id="myproject"></p></a>
+        </div>
+        <a class="twitter-timeline" data-width="620" data-height="500" href="https://twitter.com/_berojgar_?ref_src=twsrc%5Etfw">Tweets by _berojgar_
         </a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    
     </div>
 <script>
     	
@@ -33,16 +104,32 @@
     .then(function(data) {
         console.log(data)
         var followercount=data['followers']
-        var followerInfo="I have Been Followed By "+followercount+" awesome People"
+        var followerInfo="I have Been Followed By "+followercount
         document.getElementById('image').src=data['avatar_url']
         document.getElementById('Name').textContent=data['name']
         document.getElementById('Follower').textContent=followerInfo
         document.getElementById('bio').textContent=data['bio']
-        document.getElementById('url').textContent=data['blog']
+        document.getElementById('url').textContent="Meet Me At : http://www."+data['blog']
         document.getElementById('gitprofile').href=data['html_url']
-        document.getElementById('infoblock').hidden=false
-        document.getElementById('processing').hidden=true    
+       
     });
+    fetch('https://api.github.com/users/harryhar1412/repos?page=1&per_page=100')    
+    .then(res => res.json())
+    .then(function(data) {
+        var x=''
+        var i=0;
+        while(i<data.length)
+        {
+            x += data[i]['html_url']+"<br>"
+            document.getElementById("myproject").innerHTML = x;
+            document.getElementById('linkmyproject').href=x;
+            i++;
+        }
+            
+            
+    document.getElementById('infoblock').hidden=false
+    document.getElementById('processing').hidden=true    
+    })
 </script>
 </body>
 </html>
